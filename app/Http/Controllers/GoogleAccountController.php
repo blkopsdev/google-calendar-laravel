@@ -34,14 +34,19 @@ class GoogleAccountController extends Controller
         }
 
         $google->authenticate($request->get('code'));
-        $account = $google->service('Plus')->people->get('me');
-
+        $service = $google->service('People');
+        $optParams = [
+            'personFields' => 'names,emailAddresses,metadata'
+        ];
+        
+        $results = $service->people->get('people/me', $optParams);
+        
         auth()->user()->googleAccounts()->updateOrCreate(
             [
-                'google_id' => $account->id,
+                'google_id' => $results->names[0]->metadata->source->id,
             ],
             [
-                'name' => head($account->emails)->value,
+                'name' => $results->emailAddresses[0]->value,
                 'token' => $google->getAccessToken(),
             ]
         );

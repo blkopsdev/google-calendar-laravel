@@ -41,8 +41,12 @@ return [
         'redirect_uri' => env('GOOGLE_REDIRECT_URI'),
         'webhook_uri' => env('GOOGLE_WEBHOOK_URI'),
         'scopes' => [
-            \Google_Service_Oauth2::USERINFO_EMAIL,
+            // \Google_Service_Oauth2::USERINFO_EMAIL,
             \Google_Service_Calendar::CALENDAR,
+            \Google_Service_People::USERINFO_PROFILE,
+            \Google_Service_People::USERINFO_EMAIL,
+            \Google_Service_people::CONTACTS_READONLY,
+            
         ],
         'approval_prompt' => 'force',
         'access_type' => 'offline',
